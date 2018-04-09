@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//using System.Collections;
+//using System.Collections.Generic;
 using UnityEngine;
 
 public class charactermovement : MonoBehaviour {
@@ -78,13 +78,12 @@ public class charactermovement : MonoBehaviour {
         if (isGrounded)
         {   //moving forward and backward
 
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKey(KeyCode.W) || Input.GetKey("up"))
             {
                 speed = w_speed;
                 movementControl("WalkingForward");
             }
-
-            else if (Input.GetKey(KeyCode.S))
+            else if (Input.GetKey(KeyCode.S) || Input.GetKey("down"))
             {
                 speed = w_speed;
                 movementControl("WalkingBackward");
@@ -109,12 +108,12 @@ public class charactermovement : MonoBehaviour {
             }
 
             //moving right and left
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.A) || Input.GetKey("left"))
             {
                 rotSpeed = rot_speed;
             }
 
-            else if (Input.GetKey(KeyCode.D))
+            else if (Input.GetKey(KeyCode.D) || Input.GetKey("right"))
             {
                 rotSpeed = rot_speed;
             }
