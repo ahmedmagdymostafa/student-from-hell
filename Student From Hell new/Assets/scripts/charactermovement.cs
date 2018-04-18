@@ -68,7 +68,7 @@ public class charactermovement : MonoBehaviour {
         anim = GetComponent<Animator>();
         isGrounded = true;
         GameObject go = GameObject.Find("wibble");
-        Debug.Log(go.name);
+        //Debug.Log(go.name);
 
     }
 
