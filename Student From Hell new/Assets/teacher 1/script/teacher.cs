@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class teacher : MonoBehaviour {
+public class teacher : MonoBehaviour
+{
 
     public Animator anim;
     private float speed = 0.2f;
-    private float rotSpeed = 3.0f; 
+    private float rotSpeed = 3.0f;
     static float i = 0;
     public Transform teacher_tenansform;
     public bool Elec = true;
@@ -23,25 +24,28 @@ public class teacher : MonoBehaviour {
     public Transform chair;
     public Transform mictable;
     public Transform wall;
+    private float walkspped = 0.02f;
     // Use this for initialization
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
+        teacher_tenansform.Rotate(0, 180, 0);
         mictable = GameObject.FindGameObjectWithTag("podium").transform;
         chair = GameObject.FindGameObjectWithTag("chair").transform;
         wall = GameObject.FindGameObjectWithTag("wall").transform;
         explain();
-        
-	}
-	
-	// Update is called once per frame
-	void Update () 
+
+    }
+
+    // Update is called once per frame
+    void Update()
     {
-        if (iswalkenable) 
+        if (iswalkenable)
         {
 
 
 
-            if (mictable.position.x -.2f <= transform.position.z)
+            if (mictable.position.x - 1.2f <= transform.position.z)
             {
                 iswalkenable = false;
                 anim.SetBool("iswalk", false);
@@ -51,7 +55,8 @@ public class teacher : MonoBehaviour {
             {
                 anim.SetBool("iswalk", true);
                 anim.SetBool("isTR", false);
-                transform.Translate(0, 0, .01f);
+
+                transform.Translate(0, 0, walkspped);
 
             }
         }
@@ -61,7 +66,7 @@ public class teacher : MonoBehaviour {
 
 
 
-            if (mictable.position.z + 1 >= transform.position.x)
+            if (mictable.position.z + 1.4f >= transform.position.x)
             {
                 iswalkenable2 = false;
                 anim.SetBool("iswalk", false);
@@ -71,18 +76,18 @@ public class teacher : MonoBehaviour {
             {
                 anim.SetBool("iswalk", true);
                 anim.SetBool("isTR", false);
-                transform.Translate(0, 0, .01f);
+                transform.Translate(0, 0, walkspped);
 
             }
         }
 
         if (iswalkenable3)
         {
-            
+
 
 
             //if ((transform.position.z) <= -0.4369996)
-            if ((transform.position.z) <= chair.position.z)
+            if ((transform.position.z) <= chair.position.z -0.2f)
             {
                 iswalkenable3 = false;
                 anim.SetBool("iswalk", false);
@@ -93,14 +98,14 @@ public class teacher : MonoBehaviour {
                 anim.SetBool("isTL", false);
                 anim.SetBool("talklk", false);
                 anim.SetBool("iswalk", true);
-                transform.Translate(0, 0, .01f);
+                transform.Translate(0, 0, walkspped);
 
             }
         }
 
         if (iswalkenable4)
         {
-            
+
             if ((transform.position.z) <= chair.position.z - 0.8f)
             {
                 iswalkenable4 = false;
@@ -111,7 +116,7 @@ public class teacher : MonoBehaviour {
             {
                 anim.SetBool("isstand", false);
                 anim.SetBool("iswalk", true);
-                transform.Translate(0, 0, .01f);
+                transform.Translate(0, 0, walkspped);
 
             }
         }
@@ -132,7 +137,7 @@ public class teacher : MonoBehaviour {
             {
                 anim.SetBool("isstand", false);
                 anim.SetBool("iswalk", true);
-                transform.Translate(0, 0, .01f);
+                transform.Translate(0, 0, walkspped);
 
             }
         }
@@ -149,7 +154,7 @@ public class teacher : MonoBehaviour {
     }
 
     // Update is called once per frame
-    
+
 
     void Being_Electrocuted()
     {
@@ -184,21 +189,21 @@ public class teacher : MonoBehaviour {
 
     void explain()
     {
-       anim.SetBool("isexplain",true);
-       anim.SetBool("istop", false);
-       anim.SetBool("iswalk", false);
-       anim.SetBool("isTR", false);
-       anim.SetBool("isTL", false);
-       anim.SetBool("isexplainsit", false);
-       anim.SetBool("issit", false);
-       anim.SetBool("isstand", false);
-       anim.SetBool("is180", false);
-       anim.SetBool("istalk", false);
-       i = 17;
-       Invoke("turnR", i);
+        anim.SetBool("isexplain", true);
+        anim.SetBool("istop", false);
+        anim.SetBool("iswalk", false);
+        anim.SetBool("isTR", false);
+        anim.SetBool("isTL", false);
+        anim.SetBool("isexplainsit", false);
+        anim.SetBool("issit", false);
+        anim.SetBool("isstand", false);
+        anim.SetBool("is180", false);
+        anim.SetBool("istalk", false);
+        i = 17;
+        Invoke("walk", i);
     }
 
-    void turnR()
+    /*void turnR()
     {
        anim.SetBool("isexplain",false);
        anim.SetBool("istop", false);
@@ -213,12 +218,12 @@ public class teacher : MonoBehaviour {
        i = 1.0f;
        Invoke("walk", i);
        
-    }
+    }*/
     void walk()
     {
-        teacher_tenansform.Rotate(0, 90, 0);
+        teacher_tenansform.Rotate(0, -90, 0);
         iswalkenable = true;
-        
+
     }
 
     void TurnL()
@@ -252,14 +257,14 @@ public class teacher : MonoBehaviour {
 
     void turnlefttochair()
     {
-       transform.Rotate(0, -90, 0);
-       Invoke("walk_to_chair", 0);
+        transform.Rotate(0, -90, 0);
+        Invoke("walk_to_chair", 0);
     }
 
     void walk_to_chair()
     {
         iswalkenable3 = true;
-       
+
     }
 
     void turnRtosit()
@@ -297,7 +302,7 @@ public class teacher : MonoBehaviour {
 
     void drink()
     {
-      
+
     }
 
 
@@ -358,12 +363,12 @@ public class teacher : MonoBehaviour {
 
     void turn180()
     {
-        transform.Rotate(0, 90, 0);
+        // transform.Rotate(0, 90, 0);
         startexplain();
     }
-    void startexplain() 
+    void startexplain()
     {
-        transform.Rotate(0, 90, 0);
+        //transform.Rotate(0, 90, 0);
         explain();
     }
 }
