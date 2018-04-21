@@ -14,6 +14,7 @@ public class teacher : MonoBehaviour
     public static string currentAnimation = "";
     public Light P_light;
     bool start = true;
+    bool stop = true;
     bool iswalkenable = false;
     bool iswalkenable2 = false;
     bool iswalkenable3 = false;
@@ -25,6 +26,7 @@ public class teacher : MonoBehaviour
     public Transform mictable;
     public Transform wall;
     private float walkspped = 0.02f;
+    private audiotrigger Au;
     // Use this for initialization
     // Use this for initialization
     void Start()
@@ -40,105 +42,126 @@ public class teacher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (iswalkenable)
+
+        /*if (Au.isangry)
         {
+            print("hello");
+        }*/
+        /* if(Au.isangry)
+          {
+              this.stop = false;
+              anim.SetBool("isangry",true);
+              //this.angry();
+          }*/
 
-
-
-            if (mictable.position.x - 1.2f <= transform.position.z)
-            {
-                iswalkenable = false;
-                anim.SetBool("iswalk", false);
-                TurnL();
-            }
-            else
-            {
-                anim.SetBool("iswalk", true);
-                anim.SetBool("isTR", false);
-
-                transform.Translate(0, 0, walkspped);
-
-            }
-        }
-
-        if (iswalkenable2)
+        if (stop)
         {
+            
 
-
-
-            if (mictable.position.z + 1.4f >= transform.position.x)
+            if (iswalkenable)
             {
-                iswalkenable2 = false;
-                anim.SetBool("iswalk", false);
-                talk_on_microphone();
+
+
+
+                if (mictable.position.x - 1.2f <= transform.position.z)
+                {
+                    iswalkenable = false;
+                    anim.SetBool("iswalk", false);
+                    TurnL();
+                }
+                else
+                {
+                    anim.SetBool("iswalk", true);
+                    anim.SetBool("isTR", false);
+
+                    transform.Translate(0, 0, walkspped);
+
+                }
             }
-            else
-            {
-                anim.SetBool("iswalk", true);
-                anim.SetBool("isTR", false);
-                transform.Translate(0, 0, walkspped);
 
+            if (iswalkenable2)
+            {
+
+
+
+                if (mictable.position.z + 1.4f >= transform.position.x)
+                {
+                    iswalkenable2 = false;
+                    anim.SetBool("iswalk", false);
+                    talk_on_microphone();
+                }
+                else
+                {
+                    anim.SetBool("iswalk", true);
+                    anim.SetBool("isTR", false);
+                    transform.Translate(0, 0, walkspped);
+
+                }
             }
-        }
 
-        if (iswalkenable3)
-        {
-
-
-
-            //if ((transform.position.z) <= -0.4369996)
-            if ((transform.position.z) <= chair.position.z -0.2f)
+            if (iswalkenable3)
             {
-                iswalkenable3 = false;
-                anim.SetBool("iswalk", false);
-                turnRtosit();
+
+
+
+                //if ((transform.position.z) <= -0.4369996)
+                if ((transform.position.z) <= chair.position.z - 0.2f)
+                {
+                    iswalkenable3 = false;
+                    anim.SetBool("iswalk", false);
+                    turnRtosit();
+                }
+                else
+                {
+                    anim.SetBool("isTL", false);
+                    anim.SetBool("talklk", false);
+                    anim.SetBool("iswalk", true);
+                    transform.Translate(0, 0, walkspped);
+
+                }
             }
-            else
-            {
-                anim.SetBool("isTL", false);
-                anim.SetBool("talklk", false);
-                anim.SetBool("iswalk", true);
-                transform.Translate(0, 0, walkspped);
 
+            if (iswalkenable4)
+            {
+
+                if ((transform.position.z) <= chair.position.z - 0.8f)
+                {
+                    iswalkenable4 = false;
+                    anim.SetBool("iswalk", false);
+                    turnleft();
+                }
+                else
+                {
+                    anim.SetBool("isstand", false);
+                    anim.SetBool("iswalk", true);
+                    transform.Translate(0, 0, walkspped);
+
+                }
             }
-        }
 
-        if (iswalkenable4)
-        {
-
-            if ((transform.position.z) <= chair.position.z - 0.8f)
+            if (iswalkenable5)
             {
-                iswalkenable4 = false;
-                anim.SetBool("iswalk", false);
-                turnleft();
+                Debug.Log("wall =>" + wall.position.x);
+                Debug.Log(transform.position.x);
+
+                //if ((transform.position.x) >= wall.position.z - 0.4f)
+                if ((transform.position.x) >= 4.0f)
+                {
+                    iswalkenable5 = false;
+                    anim.SetBool("iswalk", false);
+                    turn180();
+                }
+                else
+                {
+                    anim.SetBool("isstand", false);
+                    anim.SetBool("iswalk", true);
+                    transform.Translate(0, 0, walkspped);
+
+                }
             }
-            else
+            if (Input.GetKey(KeyCode.L))
             {
-                anim.SetBool("isstand", false);
-                anim.SetBool("iswalk", true);
-                transform.Translate(0, 0, walkspped);
-
-            }
-        }
-
-        if (iswalkenable5)
-        {
-            Debug.Log("wall =>" + wall.position.x);
-            Debug.Log(transform.position.x);
-
-            //if ((transform.position.x) >= wall.position.z - 0.4f)
-            if ((transform.position.x) >= 4.0f)
-            {
-                iswalkenable5 = false;
-                anim.SetBool("iswalk", false);
-                turn180();
-            }
-            else
-            {
-                anim.SetBool("isstand", false);
-                anim.SetBool("iswalk", true);
-                transform.Translate(0, 0, walkspped);
-
+                close_light();
             }
         }
     }
@@ -146,6 +169,7 @@ public class teacher : MonoBehaviour
     void close_light()
     {
         P_light.intensity = 0;
+        stop = false;
         this.Reacting();
     }
     void start_light()
@@ -171,7 +195,7 @@ public class teacher : MonoBehaviour
     {
         anim.Play("Reacting", -1, 0f);
         //i = 3.20f;
-        goanimation(currentAnimation, 3.20f);
+        //goanimation(currentAnimation, 3.20f);
 
     }
 
@@ -200,7 +224,11 @@ public class teacher : MonoBehaviour
         anim.SetBool("is180", false);
         anim.SetBool("istalk", false);
         i = 17;
-        Invoke("walk", i);
+       
+        if (stop)
+        {
+            Invoke("walk", i);
+        }
     }
 
     /*void turnR()
@@ -230,7 +258,10 @@ public class teacher : MonoBehaviour
     {
 
         transform.Rotate(0, -90, 0);
-        Invoke("walk_to_microphone", 0);
+        if (stop)
+        {
+            Invoke("walk_to_microphone", 0);
+        }
     }
     void walk_to_microphone()
     {
@@ -252,13 +283,19 @@ public class teacher : MonoBehaviour
         anim.SetBool("isstand", false);
         anim.SetBool("is180", false);
         i = 7.2f;
-        Invoke("turnlefttochair", i);
+        if (stop)
+        {
+            Invoke("turnlefttochair", i);
+        }
     }
 
     void turnlefttochair()
     {
         transform.Rotate(0, -90, 0);
-        Invoke("walk_to_chair", 0);
+        if (stop)
+        {
+            Invoke("walk_to_chair", 0);
+        }
     }
 
     void walk_to_chair()
@@ -280,7 +317,10 @@ public class teacher : MonoBehaviour
         anim.SetBool("is180", false);
         anim.SetBool("istalk", false);
         i = 1.0f;
-        Invoke("sit", i);
+        if (stop)
+        {
+            Invoke("sit", i);
+        }
     }
 
     void sit()
@@ -297,7 +337,10 @@ public class teacher : MonoBehaviour
         anim.SetBool("is180", false);
         anim.SetBool("istalk", false);
         i = 4.20f;
-        Invoke("explainsitting", i);
+        if (stop)
+        {
+            Invoke("explainsitting", i);
+        }
     }
 
     void drink()
@@ -319,7 +362,10 @@ public class teacher : MonoBehaviour
         anim.SetBool("is180", false);
         anim.SetBool("istalk", false);
         i = 10f;
-        Invoke("Stand_Up", i);
+        if (stop)
+        {
+            Invoke("Stand_Up", i);
+        }
     }
 
     void Stand_Up()
@@ -336,13 +382,19 @@ public class teacher : MonoBehaviour
         anim.SetBool("is180", false);
         anim.SetBool("istalk", false);
         i = 4.25f;
-        Invoke("TurnLefttoexplain", i);
+        if (stop)
+        {
+            Invoke("TurnLefttoexplain", i);
+        }
     }
 
     void TurnLefttoexplain()
     {
         transform.Rotate(0, -90, 0);
-        Invoke("step", 0);
+        if (stop)
+        {
+            Invoke("step", 0);
+        }
     }
 
     void step()
@@ -370,5 +422,13 @@ public class teacher : MonoBehaviour
     {
         //transform.Rotate(0, 90, 0);
         explain();
+    }
+
+    public void angry()
+    {
+        anim.Play("Angry", -1, 0f);
+        //i = 3.20f;
+        //goanimation(currentAnimation, 3.20f);
+
     }
 }
