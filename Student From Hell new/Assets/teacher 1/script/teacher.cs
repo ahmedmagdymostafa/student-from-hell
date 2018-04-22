@@ -20,6 +20,8 @@ public class teacher : MonoBehaviour
     bool iswalkenable3 = false;
     bool iswalkenable4 = false;
     bool iswalkenable5 = false;
+    bool iswalkenable6 = false;
+    bool iswalkenable7 = false;
     int startstep;
     int endstep;
     public Transform chair;
@@ -27,6 +29,8 @@ public class teacher : MonoBehaviour
     public Transform wall;
     private float walkspped = 0.02f;
     private audiotrigger Au;
+    bool islightenable = false;
+    public Transform Extension_cable;
     // Use this for initialization
     // Use this for initialization
     void Start()
@@ -35,6 +39,7 @@ public class teacher : MonoBehaviour
         mictable = GameObject.FindGameObjectWithTag("podium").transform;
         chair = GameObject.FindGameObjectWithTag("chair").transform;
         wall = GameObject.FindGameObjectWithTag("wall").transform;
+        Extension_cable = GameObject.FindGameObjectWithTag("wall").transform;
         explain();
 
     }
@@ -164,6 +169,63 @@ public class teacher : MonoBehaviour
                 close_light();
             }
         }
+
+        if (!stop)
+        {
+            if (islightenable)
+            {
+                islightenable = false;
+                anim.SetBool("isexplain", false);
+                anim.SetBool("istop", false);
+                anim.SetBool("iswalk", false);
+                anim.SetBool("isTR", false);
+                anim.SetBool("isTL", false);
+                anim.SetBool("isexplainsit", false);
+                anim.SetBool("issit", false);
+                anim.SetBool("isstand", false);
+                anim.SetBool("is180", false);
+                anim.SetBool("istalk", false);
+                transform.rotation = new Quaternion(0, 0, 0, 0);
+                anim.Play("walk");
+                iswalkenable6 = true;
+            }
+            if (iswalkenable6)
+            {
+                if (Extension_cable.position.x - 1.6 <= transform.position.z)
+                {
+                    iswalkenable6 = false;
+                    anim.SetBool("iswalk", false);
+                    Picking_Up_Object();
+                }
+                else
+                {
+                    anim.SetBool("iswalk", true);
+                    transform.Translate(0, 0, walkspped);
+
+                }
+            }
+
+            if (iswalkenable7)
+            {
+                if ((transform.position.z) <= chair.position.z - 0.8f)
+                {
+                    iswalkenable7 = false;
+                    anim.SetBool("iswalk", false);
+                    teacher_tenansform.Rotate(0, -90, 0);
+                    anim.Play("stop");
+                    stop = true;
+                    explain();
+                }
+                else
+                {
+                    anim.SetBool("iswalk", true);
+                    transform.Translate(0, 0, walkspped);
+
+                }
+            }
+        }
+
+
     }
 
     void close_light()
@@ -183,8 +245,8 @@ public class teacher : MonoBehaviour
     void Being_Electrocuted()
     {
         anim.Play("Being Electrocuted", -1, 0f);
-        i = 2.20f;
-        //Invoke("walk_to_microphone", i);
+        i = 2.25f;
+        Invoke("Picking_Up_Object", i);
     }
 
     public void goanimation(string Animation, float time)
@@ -194,21 +256,39 @@ public class teacher : MonoBehaviour
     public void Reacting()
     {
         anim.Play("Reacting", -1, 0f);
-        //i = 3.20f;
-        //goanimation(currentAnimation, 3.20f);
+        i = 3.20f;
+        Invoke("turnlight", i);
 
+    }
+
+    void turnlight()
+    {
+        islightenable = true;
+    }
+
+    void returntoexplainafterstartlight() 
+    {
+        transform.rotation = new Quaternion(0, 180, 0, 0);
+        anim.Play("walk");
+        iswalkenable7 = true;
     }
 
     void Picking_Up_Object()
     {
         anim.Play("Picking Up Object", -1, 0f);
-        i = 1.07f;
+        i = 2.10f;
         if (Elec)
         {
             Invoke("Being_Electrocuted", i);
+            Elec = false;
+        }
+        else 
+        {
+            start_light();
+            anim.Play("stop");
+            Invoke("returntoexplainafterstartlight", i);
         }
 
-        //Invoke("walk_to_microphone", i);
     }
 
     void explain()
@@ -249,8 +329,11 @@ public class teacher : MonoBehaviour
     }*/
     void walk()
     {
-        teacher_tenansform.Rotate(0, -90, 0);
-        iswalkenable = true;
+        if(stop)
+        {
+            teacher_tenansform.Rotate(0, -90, 0);
+            iswalkenable = true;
+        }
 
     }
 
