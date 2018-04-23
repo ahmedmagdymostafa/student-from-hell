@@ -10,6 +10,8 @@ public class charactermovement : MonoBehaviour {
     public float jumpHeight;
     private float w_speed = 0.02f;
     private float rot_speed = 3.0f;
+    private bool crouching=false;
+    private bool crouchwalk = false;
     Rigidbody rp;
     Animator anim;
 
@@ -38,7 +40,7 @@ public class charactermovement : MonoBehaviour {
                 anim.SetBool("isWalkingBackward", false);
                 anim.SetBool("isIdle", true);
                 anim.SetBool("isRunning", false);
-                anim.SetBool("Stand", false);
+                anim.SetBool("isCrouch", false);
                 break;
 
             case "Running":
@@ -47,17 +49,25 @@ public class charactermovement : MonoBehaviour {
                 anim.SetBool("isWalkingBackward", false);
                 anim.SetBool("isIdle", false);
                 anim.SetBool("isRunning", true);
-                anim.SetBool("Stand", false);
 
                 break;
-            case "stand":
+            case "crouch":
                 anim.SetBool("isWalkingForward", false);
                 anim.SetBool("isWalkingBackward", false);
                 anim.SetBool("isIdle", false);
                 anim.SetBool("isRunning", false);
-                anim.SetBool("Stand", true);
-                sittingscript.sittingon = false;
+                anim.SetBool("isCrouch", true);
+                anim.SetBool("crouchWalk", false);
                 break;
+            case "walkingCrouch":
+                anim.SetBool("isWalkingForward", false);
+                anim.SetBool("isWalkingBackward", false);
+                anim.SetBool("isIdle", false);
+                anim.SetBool("isRunning", false);
+                anim.SetBool("isCrouch", false);
+                anim.SetBool("crouchWalk", true);
+                break;
+
         }
     }
 
@@ -81,12 +91,27 @@ public class charactermovement : MonoBehaviour {
             if (Input.GetKey(KeyCode.W) || Input.GetKey("up"))
             {
                 speed = w_speed;
-                movementControl("WalkingForward");
+                if (!crouching) {
+                    movementControl("WalkingForward");
+                }
+                else
+                {
+                    movementControl("walkingCrouch");
+                    crouchwalk = true;
+                }
+                
+
             }
             else if (Input.GetKey(KeyCode.S) || Input.GetKey("down"))
             {
                 speed = w_speed;
-                movementControl("WalkingBackward");
+                if(!crouching)
+                    movementControl("WalkingBackward");
+                else
+                {
+                    movementControl("walkingCrouch");
+                    crouchwalk = true;
+                }
             }
             else if (Input.GetKey(KeyCode.LeftShift))
             {
@@ -96,15 +121,27 @@ public class charactermovement : MonoBehaviour {
             }
             else if (Input.GetKey(KeyCode.E))
             {
-                //  if(anim1.IsPlaying("Sitting")){
-                movementControl("stand");
-                //  }
+                if (!crouching)
+                {
+                    crouching = true;
+                    movementControl("crouch");
+                }
+                else
+                    crouching = false;
 
             }
             else
             {
-                speed = w_speed;
-                movementControl("Idle");
+                if (!crouching) {
+                    speed = w_speed;
+                    movementControl("Idle");
+                }
+                else if(crouchwalk)
+                {
+                    movementControl("crouch");
+                    crouchwalk = false;
+                }
+                
             }
 
             //moving right and left
