@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class audiomanager : MonoBehaviour {
     public AudioSource BGM;
+    
 	// Use this for initialization
 	void Start () {
 		
@@ -11,7 +12,7 @@ public class audiomanager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+	
 	}
 
     public void changeBGM(AudioClip music)
@@ -19,5 +20,6 @@ public class audiomanager : MonoBehaviour {
         BGM.Stop();
         BGM.clip = music;
         BGM.Play();
+        
     }
 }
