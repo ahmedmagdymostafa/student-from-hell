@@ -33,6 +33,7 @@ public class teacher : MonoBehaviour
     private audiotrigger Au;
     bool islightenable = false;
     public Transform Extension_cable;
+    public static bool closeLight = false;
     // Use this for initialization
     // Use this for initialization
     void Start()
@@ -55,6 +56,11 @@ public class teacher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (closeLight)
+        {
+            closeLight = false;
+            close_light();
+        }
 
          if(audiotrigger.isangry)
           {
