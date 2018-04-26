@@ -22,6 +22,8 @@ public class teacher : MonoBehaviour
     bool iswalkenable5 = false;
     bool iswalkenable6 = false;
     bool iswalkenable7 = false;
+    bool iswalkenable8 = false;
+    bool iswalkenable9 = false;
     int startstep;
     int endstep;
     public string CurrentAnim;
@@ -34,6 +36,7 @@ public class teacher : MonoBehaviour
     bool islightenable = false;
     public Transform Extension_cable;
     public static bool closeLight = false;
+    public MeshRenderer Trick;
     // Use this for initialization
     // Use this for initialization
     void Start()
@@ -44,6 +47,7 @@ public class teacher : MonoBehaviour
         chair = GameObject.FindGameObjectWithTag("chair").transform;
         wall = GameObject.FindGameObjectWithTag("wall").transform;
         Extension_cable = GameObject.FindGameObjectWithTag("wall").transform;
+        Trick = GameObject.FindGameObjectWithTag("trick").GetComponent<MeshRenderer>();
         explain();
 
     }
@@ -54,8 +58,37 @@ public class teacher : MonoBehaviour
         Invoke(CurrentFun, 0);
     }
     // Update is called once per frame
+    void golab() 
+    {
+        teacher_tenansform.Rotate(0, 180, 0);
+        anim.Play("walk");
+        iswalkenable8 = true;
+    }
+    void returnslide() 
+    {
+        Trick.enabled = false;
+        teacher_tenansform.Rotate(0, 180, 0);
+        anim.Play("walk");
+        iswalkenable9 = true;
+    }
     void Update()
     {
+        if ((stop == true) && CurrentAnim == "explain" && (Trick.enabled == true))
+        {
+            stop = false;
+            anim.Play("Reacting");
+            anim.SetBool("isexplain", false);
+            anim.SetBool("istop", false);
+            anim.SetBool("iswalk", false);
+            anim.SetBool("isTR", false);
+            anim.SetBool("isTL", false);
+            anim.SetBool("isexplainsit", false);
+            anim.SetBool("issit", false);
+            anim.SetBool("isstand", false);
+            anim.SetBool("is180", false);
+            anim.SetBool("istalk", false);
+            Invoke("golab", 3.20f);
+        }
         if (closeLight)
         {
             closeLight = false;
@@ -231,6 +264,41 @@ public class teacher : MonoBehaviour
                     anim.Play("stop");
                     stop = true;
                     explain();
+                }
+                else
+                {
+                    anim.SetBool("iswalk", true);
+                    transform.Translate(0, 0, walkspped);
+
+                }
+            }
+
+            if (iswalkenable8)
+            {
+                if (mictable.position.z + 1.4f >= transform.position.x)
+                {
+                    iswalkenable8 = false;
+                    anim.SetBool("iswalk", false);
+                    anim.Play("pick");
+                    Invoke("returnslide", 1.10f);
+                }
+                else
+                {
+                    anim.SetBool("iswalk", true);
+                    transform.Translate(0, 0, walkspped);
+
+                }
+            }
+
+            if (iswalkenable9)
+            {
+                if ((transform.position.x) >= 4.0f)
+                {
+                    iswalkenable9 = false;
+                    anim.SetBool("iswalk", false);
+                    stop = true;
+                    anim.Play("explain");
+                   explain();
                 }
                 else
                 {

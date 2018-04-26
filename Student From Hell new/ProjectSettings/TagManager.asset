@@ -8,6 +8,7 @@ TagManager:
   - podium
   - wall
   - Extension_cable
+  - trick
   layers:
   - Default
   - TransparentFX
