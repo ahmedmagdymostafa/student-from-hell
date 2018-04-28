@@ -39,6 +39,14 @@ public class ai : MonoBehaviour {
                     seePlayer = true;
                     teacher.stopgame = true;
                     transform.LookAt(player.transform);
+                    if(scoresc.scoreValue>0)
+                    {
+                        scoresc.scoreValue -= 1;
+                    }
+                    else
+                    {
+                        FindObjectOfType<GameManagerscene2>().endgame();
+                    }
                 }
                 else
                     seePlayer = false;
@@ -47,8 +55,10 @@ public class ai : MonoBehaviour {
             else
                 seePlayer = false;
         }
+      
         
         
 
         }
+
 }

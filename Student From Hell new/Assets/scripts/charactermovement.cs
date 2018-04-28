@@ -134,7 +134,7 @@ public class charactermovement : MonoBehaviour {
         }
         if (isGrounded)
         {   //moving forward and backward
-            if (scoresc.scoreValue == 104)
+            if (scoresc.scoreValue > 104)
             {
                 FindObjectOfType<GameManagerscene2>().endgame();
             }

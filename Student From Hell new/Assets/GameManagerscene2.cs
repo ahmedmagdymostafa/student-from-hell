@@ -15,6 +15,7 @@ public class GameManagerscene2 : MonoBehaviour {
     }
     public void rebuild()
     {
+        scoresc.scoreValue = 0;
         SceneManager.LoadScene("menu");
     }
 }
