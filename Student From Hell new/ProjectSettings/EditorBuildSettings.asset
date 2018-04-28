@@ -4,4 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 9530577a9262a1e48b3cca7972a2ac44
+  - enabled: 1
+    path: Assets/Scenes/Lecture theatre2.unity
+    guid: ff0c1639c6aa8294eb960a2d45b8e9a2
