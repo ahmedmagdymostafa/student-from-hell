@@ -33,8 +33,13 @@ public class teacher : MonoBehaviour
     private audiotrigger Au;
     bool islightenable = false;
     public Transform Extension_cable;
+    public static bool closeLight;
     // Use this for initialization
     // Use this for initialization
+    public Quaternion teacher_postion;
+    public static bool stopgame = false;
+    public int num = 0;
+    public GameObject phone;
     void Start()
     {
         Debug.Log(chair.position);
@@ -48,6 +53,8 @@ public class teacher : MonoBehaviour
     }
     void explainagine()
     {
+        ai.tutnonai = false;
+        teacher_tenansform.rotation = teacher_postion;
         stop = true;
         anim.Play(CurrentAnim);
         Invoke(CurrentFun, 0);
@@ -55,8 +62,18 @@ public class teacher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (stopgame && CurrentAnim != "explain")
+        {
+            stop = false;
+            anim.Play("stopgame");
+        }
+        if (closeLight)
+        {
+            closeLight = false;
+            close_light();
+        }
 
-         if(audiotrigger.isangry)
+        if (audiotrigger.isangry)
           {
             audiotrigger.isangry = false;
             Debug.Log("hello");
@@ -71,8 +88,8 @@ public class teacher : MonoBehaviour
          
         if (stop)
         {
-            
 
+            teacher_postion = teacher_tenansform.rotation;
             if (iswalkenable)
             {
 
@@ -164,7 +181,8 @@ public class teacher : MonoBehaviour
                 {
                     iswalkenable5 = false;
                     anim.SetBool("iswalk", false);
-                    turn180();
+                    talkinphone();
+                    //turn180();
                 }
                 else
                 {
@@ -537,10 +555,32 @@ public class teacher : MonoBehaviour
         CurrentFun = "walk_to_explain";
         iswalkenable5 = true;
     }
+    void talkinphone()
+    {
+        if (num % 2 == 0)
+        {
+            anim.Play("Talking");
+            phone.SetActive(true);
+            Invoke("turn180", 4.23f);
+        }
+        else
+        {
+            turn180();
+        }
+    }
 
     void turn180()
     {
         // transform.Rotate(0, 90, 0);
+        if (num % 2 == 0)
+        {
+            anim.Play("explain");
+            num++;
+        }
+        else
+        {
+            num++;
+        }
         CurrentAnim = "";
         CurrentFun = "turn180";
         startexplain();
@@ -565,7 +605,14 @@ public class teacher : MonoBehaviour
         iswalkenable5 = false;
         iswalkenable6 = false;
         iswalkenable7 = false;
-        Invoke("explainagine", 18.20f);
+        Invoke("func", 18.20f);
 
+    }
+
+    public void func ()
+    {
+
+        ai.tutnonai = true;
+        Invoke("explainagine", 20.00f);
     }
 }
