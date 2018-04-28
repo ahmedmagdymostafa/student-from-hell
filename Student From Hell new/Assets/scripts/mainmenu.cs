@@ -8,6 +8,10 @@ public class mainmenu : MonoBehaviour {
     {
         SceneManager.LoadScene("Lecture theatre2");
     }
+    public void playtutorial()
+    {
+        SceneManager.LoadScene("Lecture theatre");
+    }
     public void quitmenu()
     {
         Debug.Log("quit!!");

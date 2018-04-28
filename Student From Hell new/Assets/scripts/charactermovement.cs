@@ -12,6 +12,14 @@ public class charactermovement : MonoBehaviour {
     private float rot_speed = 3.0f;
     private bool crouching=false;
     private bool crouchwalk = false;
+    public GameObject flasha;
+    public GameObject mp3;
+    public GameObject mosmar;
+    public GameObject mp3_3d;
+    public GameObject m2as;
+    public GameObject flasha_3d;
+    public GameObject mosmar_3d;
+    public GameObject m2as_3d;
     Rigidbody rp;
     Animator anim;
 
@@ -85,9 +93,51 @@ public class charactermovement : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (Vector3.Distance(mp3_3d.transform.position, this.transform.position) < 0.5f)
+        {
+            if (mp3_3d.active)
+            {
+                mp3_3d.SetActive(false);
+                mp3.SetActive(true);
+                scoresc.scoreValue += 1;
+                
+            }
+
+        }
+        if (Vector3.Distance(mosmar_3d.transform.position, this.transform.position) < 0.5f)
+        {
+            if (mosmar_3d.active)
+            {
+                mosmar_3d.SetActive(false);
+                mosmar.SetActive(true);
+                scoresc.scoreValue += 1;
+            }
+
+        }
+        if (Vector3.Distance(flasha_3d.transform.position, this.transform.position) < 0.5f)
+        {
+            if (flasha_3d.active)
+            {
+                flasha_3d.SetActive(false);
+                flasha.SetActive(true);
+                scoresc.scoreValue += 1;
+            }
+        }
+        if (Vector3.Distance(m2as_3d.transform.position, this.transform.position) < 0.5f)
+        {
+            if (m2as_3d.active)
+            {
+                m2as_3d.SetActive(false);
+                m2as.SetActive(true);
+                scoresc.scoreValue += 1;
+            }
+        }
         if (isGrounded)
         {   //moving forward and backward
-
+            if (scoresc.scoreValue == 104)
+            {
+                FindObjectOfType<GameManagerscene2>().endgame();
+            }
             if (Input.GetKey(KeyCode.W) || Input.GetKey("up"))
             {
                 speed = w_speed;

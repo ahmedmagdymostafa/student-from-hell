@@ -606,6 +606,7 @@ public class teacher : MonoBehaviour
         iswalkenable6 = false;
         iswalkenable7 = false;
         Invoke("func", 18.20f);
+        scoresc.scoreValue += 100;
 
     }
 
